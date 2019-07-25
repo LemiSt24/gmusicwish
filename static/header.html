@@ -3,9 +3,39 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Lied w&uuml;nschen</title>
+        <title>Lied w&uuml;nschen</title>
+        <style type="text/css">
+			body {
+                margin: 0;
+                font-family: sans-serif;
+				height: 100%;
+				width: 100%;
+				background:
+				radial-gradient(black 15%, transparent 16%) 0 0,
+				radial-gradient(black 15%, transparent 16%) 8px 8px,
+				radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+				radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+				background-color:#282828;
+				background-size:16px 16px;
+			}
+            .header {
+                font-weight: bold;
+            }
+            table {
+                width: 100%;
+            }
+            tr:nth-child(odd) {
+                background: rgba(255,255,255,.7);
+            }
+            tr:nth-child(even) {
+                background: rgba(128,128,128,.7);
+            }
+            td {
+                border: 1px grey solid;
+            }
+		</style>
 	</head>
 	<body>
 		<form method="POST">
             <table>
-                <tr><td>Titel</td><td>K&uuml;nstler</td><td>Album</td><td></td></tr>
+                <tr class="header"><td>Titel</td><td>K&uuml;nstler</td><td>Album</td><td></td></tr>

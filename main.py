@@ -1,4 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from io import BytesIO
 
 from gmusicapi import Mobileclient
 """

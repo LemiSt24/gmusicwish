@@ -15,14 +15,25 @@ if not api.is_authenticated():
 	print("Authentication failed somehow")
 	quit()
 
+with open('static/index.html', 'r') as file:
+	index = file.read().encode("utf-8")
+
+with open('static/header.html', 'r') as file:
+	header = file.read().encode("utf-8")
+
+with open('static/footer.html', 'r') as file:
+	footer = file.read().encode("utf-8")
+
+with open('playlist.txt', 'r') as file:
+	playlist = file.read()
+
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 	def do_GET(self):
 		self.send_response(200)
 		self.end_headers()
-		with open('static/index.html', 'r') as file:
-			self.wfile.write(file.read().encode("utf-8"))
+		self.wfile.write(index)
 
 	def do_POST(self):
 		content_length = int(self.headers['Content-Length'])
@@ -33,14 +44,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		
 		response = BytesIO()
-		with open('static/header.html', 'r') as file:
-			response.write(file.read().encode("utf-8"))
-
+		
 		if arrpost[0] == b'search':
+			response.write(header)
+
 			hits = api.search(str(arrpost[1], "utf-8"))
 			songhits = hits["song_hits"]
 			for song in songhits:
-				print(song)
 				response.write(b'<tr><td>')
 				response.write(song["track"]["title"].encode("utf-8"))
 				response.write(b'</td><td>')
@@ -51,8 +61,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 				response.write(song["track"]["storeId"].encode("utf-8"))
 				response.write(b'">+</button></td></tr>')
 			
-		with open('static/footer.html', 'r') as file:
-			response.write(file.read().encode("utf-8"))
+			response.write(footer)
+
+		elif arrpost[0] == b'add':
+			song = str(arrpost[1], "utf-8")
+			api.add_songs_to_playlist(playlist, [song])
+			
+			response.write(index)
 
 		self.wfile.write(response.getvalue())
 
